@@ -186,7 +186,7 @@ def get_client():
 
 def suggest_restaurant(client, restaurant_name: str) -> str:
     response = client.messages.create(
-        model="claude-sonnet-4-6",
+        model="claude-3-5-sonnet-20241022",
         max_tokens=800,
         system=SYSTEM_PROMPT,
         messages=[{
@@ -199,7 +199,7 @@ def suggest_restaurant(client, restaurant_name: str) -> str:
 def suggest_from_photo(client, image_bytes: bytes, mime_type: str) -> str:
     image_b64 = base64.standard_b64encode(image_bytes).decode("utf-8")
     response = client.messages.create(
-        model="claude-sonnet-4-6",
+        model="claude-3-5-sonnet-20241022",
         max_tokens=1000,
         system=SYSTEM_PROMPT,
         messages=[{
