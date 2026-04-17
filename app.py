@@ -179,7 +179,7 @@ section[data-testid="stSidebar"] .stTextInput input {
 """
 
 def get_client():
-    api_key = os.environ.get("ANTHROPIC_API_KEY") or st.session_state.get("api_key")
+    api_key = os.environ.get("ANTHROPIC_API_KEY") or st.secrets.get("ANTHROPIC_API_KEY")
     if not api_key:
         return None
     return anthropic.Anthropic(api_key=api_key)
@@ -242,18 +242,6 @@ st.markdown("""
 
 # サイドバー
 with st.sidebar:
-    st.markdown("### ⚙️ 設定")
-    api_key_input = st.text_input(
-        "Anthropic API キー",
-        type="password",
-        value=os.environ.get("ANTHROPIC_API_KEY", ""),
-        placeholder="sk-ant-..."
-    )
-    if api_key_input:
-        st.session_state["api_key"] = api_key_input
-        st.markdown("✅ APIキー設定済み")
-
-    st.markdown("---")
     st.markdown("**🔬 骨癒合に必要な栄養素**")
     nutrients = [
         ("🥩", "タンパク質", "骨の土台"),
@@ -270,13 +258,7 @@ with st.sidebar:
 
 client = get_client()
 if not client:
-    st.markdown("""
-    <div style="background:#1f2937;border:1px solid #f97316;border-radius:12px;padding:1.5rem;text-align:center;color:#f9fafb;margin-top:2rem;">
-        <div style="font-size:2rem">🔑</div>
-        <div style="font-weight:700;margin-top:0.5rem">APIキーを入力してください</div>
-        <div style="color:#9ca3af;font-size:0.9rem;margin-top:0.3rem">左のサイドバーから入力</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.error("APIキーが設定されていません。管理者に連絡してください。")
     st.stop()
 
 tab1, tab2 = st.tabs(["🍽️ 外食モード", "📸 朝食写真モード"])
